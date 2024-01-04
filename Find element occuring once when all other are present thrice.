@@ -1,0 +1,25 @@
+//User function Template for Java
+
+class Solution {
+    static int singleElement(int[] arr , int N) {
+        // code here
+        Set<Integer> uniqueElement = new HashSet<>();
+        
+        for(int i : arr) {
+            uniqueElement.add(i);
+        }
+        
+        int setSum = 0;
+         for(int i : uniqueElement){
+             setSum+=i;
+         }
+         
+         int arraySum = 0;
+         
+         for(int i : arr) {
+             arraySum+=i;
+         }
+         
+         return (3 * setSum - arraySum)/2;
+    }
+}

@@ -1,0 +1,44 @@
+class GfG
+{
+    static Node revrseLinkedList(Node head) {
+        Node prev=null,curr=head,nxt;
+        while(curr!=null){
+            nxt=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=nxt;
+        }
+        return prev;
+    }
+    Node mergeResult(Node node1, Node node2)
+    {
+	// Your code here	
+	node1=revrseLinkedList(node1);
+	node2=revrseLinkedList(node2);
+	Node temp=new Node(0);
+	Node ans=temp;
+	while(node1 !=null && node2 !=null){
+	    if(node1.data>node2.data){
+	        ans.next=node1;
+	        node1=node1.next;
+	    }
+	    else{
+	        ans.next=node2;
+	        node2=node2.next;
+	    }
+	    ans=ans.next;
+	}
+	while(node1!=null){
+	    ans.next=node1;
+	    node1=node1.next;
+	    ans=ans.next;
+	}
+	while(node2!=null){
+	    ans.next=node2;
+	    node2=node2.next;
+	    ans=ans.next;
+	}
+	return temp.next;
+	
+    }
+}

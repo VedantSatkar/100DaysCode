@@ -1,0 +1,42 @@
+class Solution {
+public
+    String removeKdigits(String S, int k) {
+        int n = S.length();
+        if (k == n) {
+            return "0";
+        }
+        Stack<Character> stack = new Stack<>();
+        for (char digit : S.toCharArray()) {
+            while (!stack.isEmpty() && k > 0 && stack.peek() > digit) {
+                stack.pop();
+                k--;
+            }
+            stack.push(digit);
+        }
+        while (k > 0) {
+            stack.pop();
+            k--;
+        }
+        StringBuilder ans = new StringBuilder();
+        while (!stack.isEmpty()) {
+            ans.append(stack.pop());
+        }
+        ans.reverse();
+        int len = ans.length();
+        int startIndex = len;
+        for (int i = 0; i < len; i++) {
+            if (ans.charAt(i) != '0') {
+                startIndex = i;
+                break;
+            }
+        }
+        ans = (startIndex == len) ? new StringBuilder("0") : new StringBuilder(ans.substring(startIndex));
+        return ans.toString();
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        String result = sol.removeKdigits("1432219", 3);
+        System.out.println(result);  // Output should be "1219"
+    }
+}

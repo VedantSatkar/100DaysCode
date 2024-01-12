@@ -1,0 +1,20 @@
+class Solution {
+    public boolean halvesAreAlike(String s) {
+        int n = s.length();
+
+        String vowels = "aeiouAEIOU";
+        int vc1 = 0, vc2 = 0;
+        for(int i=0; i<n/2; i++){
+            if(vowels.indexOf(s.charAt(i)) != -1){
+                vc1 ++;
+            }
+        }
+
+        for(int i=n/2; i<n; i++){
+            if(vowels.indexOf(s.charAt(i)) != -1){
+                vc2 ++;
+            }
+        }
+        return vc1 == vc2;
+    }
+}

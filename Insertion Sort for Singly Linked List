@@ -1,0 +1,29 @@
+class Solution
+{
+    public static Node insertionSort(Node head_ref)
+    {
+        //code here
+        if(head_ref == null || head_ref.next == null){
+            return head_ref;
+        }
+        Node dummyNode = new Node(0);
+        dummyNode.next = head_ref;
+        Node toInsert, preInsert = null;
+        while(head_ref != null && head_ref.next != null){
+            if(head_ref.data <= head_ref.next.data){
+                head_ref = head_ref.next;
+            }
+            else {
+                toInsert = head_ref.next;
+                preInsert = dummyNode;
+                while(preInsert.next.data < toInsert.data){
+                    preInsert = preInsert.next;
+                }
+                head_ref.next = toInsert.next;
+                toInsert.next = preInsert.next;
+                preInsert.next = toInsert;
+            }
+        }
+        return dummyNode.next;
+    }
+}

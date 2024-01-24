@@ -1,0 +1,36 @@
+class Solution {
+    public boolean isTree(int n, int m, ArrayList<ArrayList<Integer>> edges) 
+    {
+        // code here
+        if(m != n-1){
+            return false;
+        }
+        
+        boolean[] vis = new boolean[n];
+        
+        ArrayList<Integer>[] adj = new ArrayList[n];
+        for(int i=0; i<n; i++) {
+            adj[i] = new ArrayList();
+        }
+        for(ArrayList<Integer> edge : edges) {
+            adj[edge.get(0)].add(edge.get(1));
+            adj[edge.get(1)].add(edge.get(0));
+        }
+        int node = 0;
+        Queue<Integer> q = new LinkedList();
+        vis[0]=true;
+        int total = 1;
+        q.add(0);
+        while(!q.isEmpty()) {
+            int curr = q.poll();
+            for(int nei : adj[curr]) {
+                if(!vis[nei]) {
+                    vis[nei] = true;
+                    q.add(nei);
+                    total++;
+                }
+            }
+        }
+        return total == n;
+    }
+}

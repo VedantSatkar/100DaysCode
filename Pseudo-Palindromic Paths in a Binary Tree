@@ -1,0 +1,23 @@
+class Solution {
+    private int result = 0;
+
+    public int pseudoPalindromicPaths (TreeNode root) {
+        solve(root, 0);
+        return result;
+        
+    }
+    private void solve(TreeNode root, int temp) {
+        if(root != null) {
+            temp = temp ^(1<< root.val);
+
+            if(root.left == null && root.right == null) {
+                if((temp & (temp -1)) == 0) {
+                    result++;
+                }
+            }
+
+            solve(root.left, temp);
+            solve(root.right, temp);
+        }
+    }
+}

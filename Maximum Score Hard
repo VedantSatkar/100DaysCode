@@ -1,0 +1,55 @@
+ public class Solution {
+
+	public static int maximumScore(int n, int m, int[] a, int[] b) {
+		// Write your code heres
+		long sumA=0, sumB=0, i=0, j=0, ans=0;
+
+		while(i< n && j<m) {
+			if(a[(int) i] < b[(int) j]) {
+				sumA += a[(int)i];
+				i++;
+				//continue;
+			}
+
+			else if(a[(int)i]>b[(int)j]) {
+				sumB += b[(int)j];
+				j++;
+				//continue;
+			}
+
+			else {//(a[(int)i] == b[(int)j]) {
+				ans += Math.max(sumA, sumB);
+				ans += a[(int)i];
+
+				sumA = 0;
+				sumB = 0;
+				i++;
+				j++;
+			}
+		}
+
+		while (i<n) {
+			sumA += a[(int)i];
+			i++;
+		}
+
+		while (j<m) {
+			sumB += b[(int)j];
+			j++;
+		}
+
+		ans += Math.max(sumA, sumB);
+		ans %= 1000000007;
+
+		return (int)ans;
+	}
+
+	public static void main(String[] args) {
+		int[] a = {3,5,100};
+		int[] b = {6,7,8,9,10};
+		int n = a.length;
+		int m = b.length;
+		System.out.println(maximumScore(n, m, a, b));
+	}
+
+}

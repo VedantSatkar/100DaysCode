@@ -1,0 +1,21 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int[] termsOfAP(int x){
+		// Write your code here.
+		int ans[] = new int[x];
+		int j = 1;
+		for(int i=0; i<x; i++){
+			int a=3*j+2;
+			if(a%4!=0){
+				ans[i]=a;
+				j++;
+			}
+			else{
+				j++;
+				i--;
+			}
+		}
+		return ans;
+	}
+};

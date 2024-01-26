@@ -1,0 +1,27 @@
+class Solution
+{
+    //Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(int W, Item arr[], int n) 
+    {
+        // Your code here
+        Queue<Item> pq = new PriorityQueue<>((b,a)->(a.value*b.weight)-((b.value*a.weight)));
+        for(Item i : arr) {
+            pq.add(i);
+        }
+        double total = 0;
+        
+        while(W>0 && !pq.isEmpty()) {
+            Item tmp = pq.poll();
+            if(tmp.weight <= W) {
+                total += tmp.value;
+                W-= tmp.weight;
+            }
+            else {
+                double frac = ((double)tmp.value/(double)tmp.weight)*W;
+                total += frac;
+                W = 0;
+            }
+        }
+        return total;
+    }
+}

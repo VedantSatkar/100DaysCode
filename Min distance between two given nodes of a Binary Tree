@@ -1,0 +1,36 @@
+class Solution:
+    def findDist(self,root,a,b):
+        #return: minimum distance between a and b in a tree with given root
+        #code here
+        def lowcomanc(root,na,nb):
+            if not root or root.data==na.data or root.data==nb.data:
+                return root
+            lf=lowcomanc(root.left,na,nb)
+            rt=lowcomanc(root.right,na,nb)
+            if not lf:
+                return rt
+            if not rt:
+                return lf
+            if not lf and not rt:
+                return None
+            return root
+        
+        def disFromNode(root,node,dep=0):
+            if not root:
+                return -1
+            if root.data==node.data:
+                return dep
+            lft=disFromNode(root.left,node,dep+1)
+            if lft!=-1:
+                return lft
+            return disFromNode(root.right,node,dep+1)
+        
+        def util(root,na,nb):
+            lca=lowcomanc(root,na,nb)
+            if not lca:
+                return -1
+            disnodeA=disFromNode(lca,na)
+            disnodeB=disFromNode(lca,nb)
+            return disnodeA+disnodeB
+        
+        return util(root,Node(a),Node(b))

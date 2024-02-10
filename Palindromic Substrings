@@ -1,0 +1,22 @@
+class Solution {
+    public int countSubstrings(String s) {
+        int count =0;
+        int[][]dp = new int[s.length()][s.length()];
+        for(int[] arr:dp) Arrays.fill(arr, -1);
+
+        for(int i=0; i<s.length(); i++) {
+            for(int j=i; j<s.length(); j++){
+                if(isPalin(s,i,j,dp)==1) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    int isPalin(String str, int i, int j, int[][] dp) {
+        if(i>=j) return 1;
+        if(dp[i][j]!=-1) return dp[i][j];
+
+        return (str.charAt(i)==str.charAt(j) && isPalin(str, i+1, j-1, dp)==1)?1:0;
+    }
+}

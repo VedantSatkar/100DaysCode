@@ -1,47 +1,39 @@
 class Solution {
     public int mostBooked(int n, int[][] meetings) {
-        int[] roomsUsedCount = new int[n];
+        int[] ans = new int[n];
+        long[] times = new long[n];
+        Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
 
-        // To store {earliest room empty time, room No.}
-        PriorityQueue<long[]> usedRooms = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
-
-        // To store rooms that are used
-        PriorityQueue<Integer> unusedRooms = new PriorityQueue<>();
-        for (int room = 0; room < n; room++) {
-            unusedRooms.add(room); // All rooms are unused in the beginning
-        }
-
-        for (int[] meet : meetings) {
-            int start = meet[0];
-            int end = meet[1];
-
-            // First see, by this time, which rooms can be empty now
-            // And move them to unusedRooms
-            while (!usedRooms.isEmpty() && usedRooms.peek()[0] <= start) {
-                int room = (int) usedRooms.poll()[1];
-                unusedRooms.add(room);
+        for (int i = 0; i < meetings.length; i++) {
+            int start = meetings[i][0], end = meetings[i][1];
+            boolean flag = false;
+            int minind = -1;
+            long val = Long.MAX_VALUE;
+            for (int j = 0; j < n; j++) {
+                if (times[j] < val) {
+                    val = times[j];
+                    minind = j;
+                }
+                if (times[j] <= start) {
+                    flag = true;
+                    ans[j]++;
+                    times[j] = end;
+                    break;
+                }
             }
-
-            if (!unusedRooms.isEmpty()) {
-                int room = unusedRooms.poll();
-                usedRooms.add(new long[]{end, room});
-                roomsUsedCount[room]++;
-            } else { // We don't have any room available now. Pick the earliest end room
-                int room = (int) usedRooms.peek()[1];
-                long endTime = usedRooms.poll()[0];
-                usedRooms.add(new long[]{endTime + (end - start), room});
-                roomsUsedCount[room]++;
+            if (!flag) {
+                ans[minind]++;
+                times[minind] += (end - start);
             }
         }
 
-        int resultRoom = -1;
-        int maxUse = 0;
-        for (int room = 0; room < n; room++) {
-            if (roomsUsedCount[room] > maxUse) {
-                maxUse = roomsUsedCount[room];
-                resultRoom = room;
+        int maxi = -1, id = -1;
+        for (int i = 0; i < n; i++) {
+            if (ans[i] > maxi) {
+                maxi = ans[i];
+                id = i;
             }
         }
-        return resultRoom;
+        return id;
     }
 }

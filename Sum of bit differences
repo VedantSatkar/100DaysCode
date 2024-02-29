@@ -1,0 +1,20 @@
+class Solution {
+    long sumBitDifferences(int[] arr, int n) {
+        // code here
+        long res=0;
+        
+        for(int i=0;i<32;i++){
+            long counton=0;
+            for(int val:arr){
+                if((val&(1<<i)) != 0){
+                    counton++;
+                }
+            }
+            long countoff=arr.length-counton;
+            
+            long diff=counton*countoff*2;
+            res+=diff;
+        }
+        return res;
+    }
+}

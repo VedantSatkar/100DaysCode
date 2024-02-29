@@ -1,0 +1,50 @@
+class Solution {
+    public boolean isEvenOddTree(TreeNode root) {
+        //Create a queue nodes need to visited and add root
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode current = root;
+        queue.add(current);
+        
+        ///// track when an even level
+        boolean even = true;
+        
+        //while
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            
+            //prev hold value of prev node inn this level
+            int prev = Integer.MAX_VALUE;
+            if(even) {
+                prev = Integer.MIN_VALUE;
+            }
+            
+            //WHILE MORE NODE IN THIS LEVEL
+            //REMOVE A NODE. CHECK THE CONDITION
+            //ADD ITS CHILD NODE
+            while(size > 0) {
+                current = queue.poll();
+                
+                //If an even level, check nodes value is odd & greather than Prev
+                //If an odd level, check nodes value is even & greather than Prev
+                if((even && (current.val % 2 == 0 || current.val <= prev)) ||
+                   (!even && (current.val % 2 == 1 || current.val >= prev))) {
+                    return false;
+                }
+                
+                prev = current.val;
+                if(current.left != null) {
+                    queue.add(current.left);
+                }
+                if(current.right != null) {
+                    queue.add(current.right);
+                }
+                //Decrement size, we have hundle node on this level
+                size--;
+            }
+            //Flip the value of Even, the next level will be opposite
+            even = !even;
+        }
+        //If every node meets the condition the tree is even- odd
+        return true;
+    }
+}

@@ -1,0 +1,13 @@
+class Solution
+{
+    public int firstElementKTime(int n, int k, int[] a) { 
+        Map<Integer , Integer> mp = new HashMap();
+        for(int i:a){
+            mp.put(i,mp.getOrDefault(i,0)+1);
+            if(mp.get(i)==k){
+                return i;
+            }
+        }
+        return -1;
+    } 
+}

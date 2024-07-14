@@ -1,0 +1,55 @@
+import java.util.*;
+
+class Solution {
+    int i = 0;
+
+    public String countOfAtoms(String formula) {
+        Map<String, Integer> countMap = parse(formula);
+        StringBuilder result = new StringBuilder();
+        countMap.keySet().stream().sorted().forEach(atom -> {
+            result.append(atom);
+            int count = countMap.get(atom);
+            if (count > 1) result.append(count);
+        });
+        return result.toString();
+    }
+
+    private Map<String, Integer> parse(String formula) {
+        Map<String, Integer> map = new HashMap<>();
+        while (i < formula.length()) {
+            if (formula.charAt(i) == '(') {
+                i++;
+                Map<String, Integer> innerMap = parse(formula);
+                int multiplier = parseNum(formula);
+                for (String key : innerMap.keySet()) {
+                    map.put(key, map.getOrDefault(key, 0) + innerMap.get(key) * multiplier);
+                }
+            } else if (formula.charAt(i) == ')') {
+                i++;
+                return map;
+            } else {
+                String atom = parseAtom(formula);
+                int count = parseNum(formula);
+                map.put(atom, map.getOrDefault(atom, 0) + count);
+            }
+        }
+        return map;
+    }
+
+    private String parseAtom(String formula) {
+        StringBuilder atom = new StringBuilder();
+        atom.append(formula.charAt(i++));
+        while (i < formula.length() && Character.isLowerCase(formula.charAt(i))) {
+            atom.append(formula.charAt(i++));
+        }
+        return atom.toString();
+    }
+
+    private int parseNum(String formula) {
+        int num = 0;
+        while (i < formula.length() && Character.isDigit(formula.charAt(i))) {
+            num = num * 10 + formula.charAt(i++) - '0';
+        }
+        return num == 0 ? 1 : num;
+    }
+}

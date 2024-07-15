@@ -1,0 +1,65 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+}
+class Solution {
+    public TreeNode createBinaryTree(int[][] descriptions) {
+        Map<Integer, TreeNode> nodeMap = new HashMap<>();
+        Set<Integer> childern = new HashSet<>();
+        
+        // Tree Node & Set Parent-child 
+        for (int[] description : descriptions) {
+            int parentVal = description[0];
+            int childVal = description[1];
+            boolean isLeft = description[2] == 1;
+            
+            //Create a parent node if it dosen`t exist
+            TreeNode parent = nodeMap.getOrDefault(parentVal, new TreeNode(parentVal));
+            nodeMap.put(parentVal, parent);
+            
+            //Create a child node if it dosen`t exist
+            TreeNode child = nodeMap.getOrDefault(childVal, new TreeNode(childVal));
+            nodeMap.put(childVal, child);
+            
+            // Set the Child node as left right child of the parent node
+            if (isLeft) {
+                parent.left = child;
+            }
+            else {
+                parent.right = child;
+            }
+            
+            //Mark Child node as child
+            childern.add(childVal);
+        }
+        
+        // Root Node be one which is not in childern set
+        for(int[] description : descriptions) {
+            int parentVal = description[0];
+            if (!childern.contains(parentVal)) {
+                return nodeMap.get(parentVal);
+            }
+        }
+        
+        return null;
+    }
+}
